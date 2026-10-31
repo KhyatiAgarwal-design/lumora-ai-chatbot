@@ -660,31 +660,29 @@ userInput.addEventListener('keydown', function(e) {
 });
 
 // Call Flask API endpoint
-async function callChatAPI(message, user) {
-  try {
-      const response = await fetch('https://lumora-ai-chatbot.onrender.com/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: message,
-        user_name: user.displayName || 'User'
-      })
-    });
+      const API_BASE = 'https://lumora-ai-chatbot.onrender.com';
+      fetch(`${API_BASE}/health`).catch(() => { });
 
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('API call error:', error);
-    throw error;
-  }
-}
-
+      async function callChatAPI(message, user, retries = 2) {
+          for (let i = 0; i <= retries; i++) {
+              try {
+                  const ctrl = new AbortController();
+                  const t = setTimeout(() => ctrl.abort(), 60000);
+                  const response = await fetch(`${API_BASE}/chat`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ message, user_name: user.displayName || 'User' }),
+                      signal: ctrl.signal
+                  });
+                  clearTimeout(t);
+                  if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
+                  return await response.json();
+              } catch (error) {
+                  if (i === retries) throw error;
+                  await new Promise(r => setTimeout(r, 3000));
+              }
+          }
+      }
 // Send message to Flask backend
 async function sendMessage() {
   if (!authChecked || !userData) {

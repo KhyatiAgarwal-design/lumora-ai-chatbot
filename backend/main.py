@@ -19,11 +19,11 @@ if not GOOGLE_API_KEY:
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # ✅ Load the free Gemini model
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 # ✅ Initialize Flask app
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["https://YOUR-APP.vercel.app", "http://localhost:5500", "http://127.0.0.1:5500"])
 
 # ✅ Gemini chat logic
 def query_gemini(prompt):
@@ -34,11 +34,16 @@ def query_gemini(prompt):
         print("❌ Gemini API error:", e)
         print(traceback.format_exc())
         return "Sorry, I couldn't respond right now. Please try again later."
-
+@app.route("/health")
+def health():
+    return {"status": "ok"}
+@app.route("/health")
+def health():
+    return {"status": "ok"}
 # ✅ Chat endpoint
 @app.route("/chat", methods=["POST"])
 def chat():
-    data = request.json
+    data = request.get_json(silent=True) or {}
     user_message = data.get("message", "").strip()
     user_name = data.get("user_name", "User")
 
@@ -67,4 +72,4 @@ to encourage the user to share more about their feelings."""
 # ✅ Run the app
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  
-    app.run(debug=True, host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port)
