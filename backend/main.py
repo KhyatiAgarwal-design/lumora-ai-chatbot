@@ -37,9 +37,6 @@ def query_gemini(prompt):
 @app.route("/health")
 def health():
     return {"status": "ok"}
-@app.route("/health")
-def health():
-    return {"status": "ok"}
 # ✅ Chat endpoint
 @app.route("/chat", methods=["POST"])
 def chat():
