@@ -23,7 +23,7 @@ model = genai.GenerativeModel("gemini-2.5-flash")
 
 # ✅ Initialize Flask app
 app = Flask(__name__)
-CORS(app, origins=["https://YOUR-APP.vercel.app", "http://localhost:5500", "http://127.0.0.1:5500"])
+CORS(app, origins=["https://lumora-ai-chatbot-omega.vercel.app/#home", "http://localhost:5500", "http://127.0.0.1:5500"])
 
 # ✅ Gemini chat logic
 def query_gemini(prompt):
