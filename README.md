@@ -27,3 +27,12 @@ Built for hackathons, it's lightweight, beginner-friendly, and uses the Hugging 
 - Firebase Auth
 - Deployed on Vercel + Render
 ---
+<p align="center">
+  <img src="LumoraAI_logo.png" width="120" alt="LumoraAI logo"/>
+</p>
+
+## 📸 Screenshots
+<p align="center">
+  <img src="home.png" width="45%" alt="Home"/>
+  <img src="chatbot.png" width="45%" alt="Chat"/>
+</p>
