@@ -24,7 +24,7 @@ model = genai.GenerativeModel("gemini-2.5-flash")
 # ✅ Initialize Flask app
 app = Flask(__name__)
 CORS(app, origins=[
-    "https://NEW-NAME.vercel.app",
+    "https://khyati-lumora.vercel.app",
     "https://lumora-ai-chatbot-omega.vercel.app",
     "http://localhost:5500",
     "http://127.0.0.1:5500"
